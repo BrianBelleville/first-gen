@@ -1,4 +1,4 @@
 first-gen
 =========
 
-Html-generation and web framework
+Html-generation
