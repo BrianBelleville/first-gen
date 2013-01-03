@@ -5,4 +5,6 @@
   :serial t
   :components ((:file "package")
 	       (:file "html-gen")
-	       (:file "html-tags")))
+	       (:file "html-tags")
+	       (:file "framework")
+	       (:file "server-hooks")))
