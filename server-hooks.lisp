@@ -1,9 +1,31 @@
-;this is the hooks that are necessary for a server to support the first-gen framework.
-; todo : these symbols don't need to be made available to the general framework, so it may be better to define the shared symbols used by the functions exported here in some private package that both the server hooks and the main framework utilize.
+(in-package :first-gen-server-hooks)
 
-(defpackage :first-gen-server-hooks
-  (:use :cl :first-gen)
-  (:export :execute-get-method
-	   :execute-post-method
-	   :clear-get-handlers
-	   :clear-post-handlers))
+(declaim (inline execute-handler-method))
+(defun execute-handler-method (table uri params)
+  (declare (type string uri)
+	   (type hash-table table))
+  (multiple-value-bind (val found) (gethash uri table)
+    (if found
+	(values (apply val params) t)
+	(values nil nil))))
+
+(export 'execute-get-method)
+(declaim (inline execute-get-method))
+(defun execute-get-method (uri &rest params)
+  (declare (type string uri))
+  (execute-handler-method *get-req-handlers* uri params))
+
+(export 'execute-post-method)
+(declaim (inline execute-post-method))
+(defun execute-post-method (uri &rest params)
+  (declare (type string uri))
+  (execute-handler-method *post-req-handlers* uri params))
+
+(export 'clear-get-handlers)
+(defun clear-get-handlers ()
+  (setf *get-req-handlers* (make-hash-table :test #'equal))
+  t)
+  
+(export 'clear-post-handlers)
+(defun clear-post-handlers ()
+  (setf *post-req-handlers* (make-hash-table :test #'equal)))
