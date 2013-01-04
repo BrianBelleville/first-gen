@@ -18,7 +18,12 @@
 (export 'defview)
 (defmacro defview (name lambda-list &body body)
   "define a function that will output html as a string - functions defined by defget or defpost will ususally return a function defined with defview"
-  `(defun ,name ,lambda-list
-     (with-output-to-string (*html-output*)
-       ,@body)))
+  (let ((declare-present (eq (caar body) 'declare)))
+    `(defun ,name ,lambda-list
+       ,@(if declare-present
+	     (list (car body)))
+       (with-output-to-string (*html-output*)
+	 ,@(if declare-present
+	       (cdr body)
+	       body)))))
 
