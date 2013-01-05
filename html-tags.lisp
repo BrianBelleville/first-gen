@@ -6,7 +6,7 @@
   "outputs the doctype declaration to *html-output*"
   (write-sequence "<!DOCTYPE html>" *html-output*))
 
-(deftags t
+(deftags nil
     (area t)
   (base t)
   (br t)

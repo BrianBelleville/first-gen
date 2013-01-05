@@ -1,6 +1,5 @@
 (in-package :first-gen)
 
-(export '*html-output*)
 (defvar *html-output* *standard-output*)
 
 (declaim (inline output-html))
