@@ -20,6 +20,8 @@
    :defget
    :defpost
    :defview
+   :set-header-field
+   :*http-header*
 
    ; html-gen symbols
    :*html-out
@@ -113,7 +115,8 @@
 (defpackage :first-gen-server-hooks
   (:documentation "symbols that are needed so set up a server to serve sites defined with the :first-gen framework")
   (:use :cl
-	:first-gen-internal)
+	:first-gen-internal
+	:bel-utils)
   (:export
 
    ;server-hooks symbols

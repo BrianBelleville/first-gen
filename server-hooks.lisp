@@ -10,9 +10,12 @@
 	(values nil nil))))
 
 (declaim (inline execute-get-method))
-(defun execute-get-method (uri &rest params)
-  (declare (type string uri))
-  (execute-handler-method *get-req-handlers* uri params))
+(defun execute-get-method (uri query-string header)
+  (declare (type string uri query-string)
+	   (type hash-table header))
+  (aif (gethash uri *get-req-handlers*)
+       (values (funcall it query-string header) t)
+       (values nil nil)))
 
 (declaim (inline execute-post-method))
 (defun execute-post-method (uri &rest params)
@@ -24,4 +27,5 @@
   t)
   
 (defun clear-post-handlers ()
-  (setf *post-req-handlers* (make-hash-table :test #'equal)))
+  (setf *post-req-handlers* (make-hash-table :test #'equal))
+  t)
