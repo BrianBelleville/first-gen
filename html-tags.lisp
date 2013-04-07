@@ -1,6 +1,5 @@
 (in-package :first-gen)
 
-(export 'doctype-html)
 (declaim (inline doctype-html))
 (defun doctype-html ()
   "outputs the doctype declaration to *html-output*"
